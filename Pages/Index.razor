@@ -62,7 +62,7 @@
 
     private void searchHandler()
     {
-        tempPokemon = pokemons.FindAll(item => item.Name.Contains(searchValue));
+        tempPokemon = pokemons.FindAll(item => item.Name.Contains(searchValue.ToLowerInvariant()));
         count = tempPokemon.Count;
         if (searchValue.Length > 0)
         {
