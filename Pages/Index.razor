@@ -1,0 +1,83 @@
+@page "/"
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject HttpClient HttpClient
+
+<div class="container mx-auto">
+    <div class="grid grid-cols-search gap-4 items-center">
+        <div class="">
+            <input type="text" name="search" id="search" class="w-full h-auto shadow-sm focus:ring-blue-500 focus:border-blue-500 block sm:text-sm border-gray-300 rounded-md" placeholder="search"
+                   @onkeyup="searchHandler" @bind="searchValue" 
+                   @bind:event="oninput">
+        </div>
+        <div class="">
+            <p>Pokemon: @count</p>
+        </div>
+    </div>
+  
+    <div class="grid grid-cols-4 gap-4 my-12">
+        @if (searching == true)
+        {
+            @foreach (var pokemon in tempPokemon)
+            {
+                <PokemonCard pokemon=@pokemon/>
+            }
+        }
+        else
+        {
+            @foreach (var pokemon in pokemons)
+            {
+                <PokemonCard pokemon=@pokemon/>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<Pokemon> pokemons = new List<Pokemon>();
+    private int count;
+    private JsonElement result;
+    private string searchValue { get; set; }
+    private List<Pokemon> tempPokemon = new List<Pokemon>();
+    private bool searching = false;
+    protected override async Task OnInitializedAsync()
+    {
+        string apiEndpoint = "https://pokeapi.co/api/v2/pokemon?limit=151";
+        var data = await HttpClient.GetFromJsonAsync<JsonElement>(apiEndpoint);
+        result = data.GetProperty("results");
+        count = result.GetArrayLength();
+        
+        int i = 1;
+        foreach (JsonElement item in result.EnumerateArray())
+        {
+            
+            Pokemon temp = new Pokemon();
+            temp.Name = item.GetProperty("name").ToString();
+            temp.Image = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{i}.png";
+            pokemons.Add(temp);
+            i++;
+        }
+    }
+
+    private void searchHandler()
+    {
+        tempPokemon = pokemons.FindAll(item => item.Name.Contains(searchValue));
+        count = tempPokemon.Count;
+        if (searchValue.Length > 0)
+        {
+            searching = true;
+        }
+        else
+        {
+            searching = false;
+        }
+    }
+    
+    public class Pokemon
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        public string Image { get; set; }
+    }
+}
