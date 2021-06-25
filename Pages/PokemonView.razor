@@ -2,12 +2,31 @@
 @using System.Text.Json
 @using System.Net.Http.Json
 @inject HttpClient HttpClient
+@inject NavigationManager navigationManager;
 
 <div class="container mx-auto">
     
-    @if (loaded == true)
+    @if (loaded)
     {
-        <p class="text-center capitalize text-white">@pokemon.Name</p>
+        <div class="grid grid-cols-3">
+            @if (pokemon.Id - 1 != 0)
+            {
+                <button @onclick="pre">
+                    <img src="@($"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id - 1}.png")" alt="">
+                </button>
+            }
+            else
+            {
+                <div></div>
+            }
+             <p class="self-center text-center capitalize text-white text-2xl">@pokemon.Name</p>
+            @if (pokemon.Id + 1 != 152)
+            {
+                <button @onclick="next" class="justify-self-end">
+                                <img src="@($"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id + 1}.png")" alt="">
+                </button>
+            }
+        </div>
         <img src="@pokemon.Image" class="mx-auto w-64 h-64">
         <div class="mx-auto w-max">
             <p class="text-white text-center mb-4">Types</p>
@@ -16,22 +35,13 @@
                 <div class="capitalize inline-block text-center text-white mx-2 w-32 h-auto py-4 px-2 @($"bg-{type.Name}")">@type.Name</div>
             }
         </div>
-        
         <div>
             <dl class="mt-12 px-4 md:px-0 grid grid-cols-1 gap-5 sm:grid-cols-6">
                 <p class="col-span-full text-white text-center">Stats</p>
                 @foreach (var stat in pokemon.Stats)
                 {
-                    <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                        <dt class="text-sm font-medium text-gray-500 truncate capitalize">
-                            @stat.Name
-                        </dt>
-                        <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                            @stat.Value
-                        </dd>
-                    </div>
+                    <PokemonStats stat=@stat />
                 }
-
             </dl>
         </div>
     }
@@ -41,18 +51,22 @@
 @code {
     [Parameter]
     public string id { get; set; }
-    Index.Pokemon pokemon = new Index.Pokemon();
+
+    Index.Pokemon pokemon;
     private JsonElement types;
     private JsonElement stats;
 
-    private bool loaded = false;
+    private bool loaded;
     
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        loaded = false;
         string apiEndpoint = $"https://pokeapi.co/api/v2/pokemon/{id}";
         var data = await HttpClient.GetFromJsonAsync<JsonElement>(apiEndpoint);
-
+        pokemon = new Index.Pokemon();
+        
         pokemon.Name = data.GetProperty("name").ToString();
+        pokemon.Id = Int32.Parse(id);
         pokemon.Image = data.GetProperty("sprites").GetProperty("front_default").ToString();
         types = data.GetProperty("types");
         
@@ -77,9 +91,17 @@
             tempStat.Name = item.GetProperty("stat").GetProperty("name").ToString();
             
             pokemon.Stats.Add(tempStat);
-
         }
         
         loaded = true;
+    }
+
+    private void pre()
+    {
+        navigationManager.NavigateTo($"/pokemonview/{pokemon.Id - 1}");
+    }
+    private void next()
+    {
+        navigationManager.NavigateTo($"/pokemonview/{pokemon.Id + 1}");
     }
 }
