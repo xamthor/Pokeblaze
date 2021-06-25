@@ -1,9 +1,11 @@
 @using PokeBlaze.Pages
 @using Index = PokeBlaze.Pages.Index
-    <div class="bg-blue-400 hover:bg-blue-600 text-center rounded-md py-4 cursor-pointer">
+<div class="bg-blue-400 hover:bg-blue-600 text-center rounded-md py-4 cursor-pointer">
+    <a href="/pokemonview/@pokemon.Id">
         <span class="text-white capitalize">@pokemon.Name</span>
         <img src="@pokemon.Image" class="mx-auto">
-    </div>
+    </a>
+</div>
 @code {
     [Parameter]
     public Index.Pokemon pokemon { get; set; }

@@ -29,8 +29,6 @@
         pokemon.Image = data.GetProperty("sprites").GetProperty("front_default").ToString();
         types = data.GetProperty("types");
         
-        
-        
         foreach (JsonElement item in types.EnumerateArray())
         {
             Index.Type tempType = new Index.Type();
@@ -41,7 +39,5 @@
             pokemon.Types.Add(tempType);
 
         }
-        
     }
-    
 }
