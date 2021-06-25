@@ -12,7 +12,7 @@
             @if (pokemon.Id - 1 != 0)
             {
                 <button @onclick="pre" class="relative">
-                    <span class="absolute top-2 left-2 bg-white w-8 h-8 py-2 text-xs text-center text-black rounded-full">@(pokemon.Id - 1)</span>
+                    @* <span class="absolute top-2 left-2 bg-white w-8 h-8 py-2 text-xs text-center text-black rounded-full">@(pokemon.Id - 1)</span> *@
                     <img src="@($"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id - 1}.png")" alt="">
                 </button>
             }
@@ -24,7 +24,7 @@
             @if (pokemon.Id + 1 != 152)
             {
                 <button @onclick="next" class="justify-self-end relative">
-                    <span class="absolute top-2 right-2  bg-white w-8 h-8 py-2 text-xs text-center text-black rounded-full">@(pokemon.Id + 1)</span>
+                    @* <span class="absolute top-2 right-2  bg-white w-8 h-8 py-2 text-xs text-center text-black rounded-full">@(pokemon.Id + 1)</span> *@
                     <img src="@($"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pokemon.Id + 1}.png")" alt="">
                 </button>
             }
