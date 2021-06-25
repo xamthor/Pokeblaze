@@ -4,14 +4,38 @@
 @inject HttpClient HttpClient
 
 <div class="container mx-auto">
-    <p class="text-center capitalize text-white">@pokemon.Name</p>
-    <img src="@pokemon.Image" class="mx-auto w-64 h-64">
-    <div class="mx-auto w-max">
-    @foreach (var type in pokemon.Types)
+    
+    @if (loaded == true)
     {
-        <div class="capitalize inline-block text-center text-white mx-2 w-32 h-auto py-4 px-2 @($"bg-{type.Name}")">@type.Name</div>
+        <p class="text-center capitalize text-white">@pokemon.Name</p>
+        <img src="@pokemon.Image" class="mx-auto w-64 h-64">
+        <div class="mx-auto w-max">
+            <p class="text-white text-center mb-4">Types</p>
+            @foreach (var type in pokemon.Types)
+            {
+                <div class="capitalize inline-block text-center text-white mx-2 w-32 h-auto py-4 px-2 @($"bg-{type.Name}")">@type.Name</div>
+            }
+        </div>
+        
+        <div>
+            <dl class="mt-12 px-4 md:px-0 grid grid-cols-1 gap-5 sm:grid-cols-6">
+                <p class="col-span-full text-white text-center">Stats</p>
+                @foreach (var stat in pokemon.Stats)
+                {
+                    <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                        <dt class="text-sm font-medium text-gray-500 truncate capitalize">
+                            @stat.Name
+                        </dt>
+                        <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                            @stat.Value
+                        </dd>
+                    </div>
+                }
+
+            </dl>
+        </div>
     }
-    </div>
+
 </div>
 
 @code {
@@ -19,7 +43,10 @@
     public string id { get; set; }
     Index.Pokemon pokemon = new Index.Pokemon();
     private JsonElement types;
+    private JsonElement stats;
 
+    private bool loaded = false;
+    
     protected override async Task OnInitializedAsync()
     {
         string apiEndpoint = $"https://pokeapi.co/api/v2/pokemon/{id}";
@@ -39,5 +66,20 @@
             pokemon.Types.Add(tempType);
 
         }
+        
+        stats = data.GetProperty("stats");
+
+        foreach (JsonElement item in stats.EnumerateArray())
+        {
+            Index.Stat tempStat = new Index.Stat();
+            
+            tempStat.Value = item.GetProperty("base_stat").GetInt32();
+            tempStat.Name = item.GetProperty("stat").GetProperty("name").ToString();
+            
+            pokemon.Stats.Add(tempStat);
+
+        }
+        
+        loaded = true;
     }
 }

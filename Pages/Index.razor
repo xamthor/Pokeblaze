@@ -83,11 +83,19 @@
         public string Name { get; set; }
         public string Image { get; set; }
         public List<Type> Types = new List<Type>();
+        public List<Stat> Stats = new List<Stat>();
+
     }
     
     public class Type
     {
         public int Slot { get; set; }
         public string Name { get; set; }
+    }
+    
+    public class Stat
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
     }
 }
