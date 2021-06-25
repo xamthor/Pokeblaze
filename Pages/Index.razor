@@ -1,21 +1,24 @@
 @page "/"
 @using System.Net.Http.Json
 @using System.Text.Json
-@using System.Text.Json.Serialization
+@using PokeBlaze.Data.Controller
+@using PokeBlaze.Data.Models
+@using System.Collections
 @inject HttpClient HttpClient
 
 <div class="container px-4 md:px-0 mx-0 md:mx-auto">
+    
     <div class="grid grid-cols-1 md:grid-cols-search gap-4 items-center">
         <div class="">
             <input type="text" name="search" id="search" class="w-full h-auto shadow-sm focus:ring-blue-500 focus:border-blue-500 block sm:text-sm border-gray-300 rounded-md" placeholder="search"
-                   @onkeyup="searchHandler" @bind="searchValue" 
+                   @onkeyup="searchHandler" @bind="searchValue"
                    @bind:event="oninput">
         </div>
         <div class="text-center">
             <p>Pokemon: @count</p>
         </div>
     </div>
-  
+
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 my-12">
         @if (searching == true)
         {
@@ -41,6 +44,7 @@
     private string searchValue { get; set; }
     private List<Pokemon> tempPokemon = new List<Pokemon>();
     private bool searching = false;
+    
     protected override async Task OnInitializedAsync()
     {
         string apiEndpoint = "https://pokeapi.co/api/v2/pokemon?limit=151";
@@ -51,13 +55,14 @@
         int i = 1;
         foreach (JsonElement item in result.EnumerateArray())
         {
-            
             Pokemon temp = new Pokemon();
+            temp.Id = i;
             temp.Name = item.GetProperty("name").ToString();
             temp.Image = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{i}.png";
             pokemons.Add(temp);
             i++;
         }
+
     }
 
     private void searchHandler()
@@ -76,8 +81,16 @@
     
     public class Pokemon
     {
-        [JsonPropertyName("name")]
+        // [JsonPropertyName("name")]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public List<Type> Types = new List<Type>();
+    }
+    
+    public class Type
+    {
+        public int Slot { get; set; }
+        public string Name { get; set; }
     }
 }

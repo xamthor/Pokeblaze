@@ -737,6 +737,11 @@ select {
   margin-right: 0px;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -780,6 +785,10 @@ select {
   display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .flex {
   display: flex;
 }
@@ -808,6 +817,10 @@ select {
   height: 6rem;
 }
 
+.h-64 {
+  height: 16rem;
+}
+
 .h-auto {
   height: auto;
 }
@@ -820,12 +833,22 @@ select {
   width: 2rem;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
 .w-64 {
   width: 16rem;
 }
 
 .w-full {
   width: 100%;
+}
+
+.w-max {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .max-w-md {
@@ -1033,6 +1056,96 @@ select {
   background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
 }
 
+.bg-normal {
+  --tw-bg-opacity: 1;
+  background-color: rgba(168, 168, 120, var(--tw-bg-opacity));
+}
+
+.bg-fire {
+  --tw-bg-opacity: 1;
+  background-color: rgba(240, 128, 48, var(--tw-bg-opacity));
+}
+
+.bg-water {
+  --tw-bg-opacity: 1;
+  background-color: rgba(104, 144, 240, var(--tw-bg-opacity));
+}
+
+.bg-grass {
+  --tw-bg-opacity: 1;
+  background-color: rgba(120, 200, 80, var(--tw-bg-opacity));
+}
+
+.bg-electric {
+  --tw-bg-opacity: 1;
+  background-color: rgba(248, 207, 48, var(--tw-bg-opacity));
+}
+
+.bg-ice {
+  --tw-bg-opacity: 1;
+  background-color: rgba(153, 216, 216, var(--tw-bg-opacity));
+}
+
+.bg-fighting {
+  --tw-bg-opacity: 1;
+  background-color: rgba(192, 49, 40, var(--tw-bg-opacity));
+}
+
+.bg-poison {
+  --tw-bg-opacity: 1;
+  background-color: rgba(159, 64, 160, var(--tw-bg-opacity));
+}
+
+.bg-ground {
+  --tw-bg-opacity: 1;
+  background-color: rgba(224, 191, 104, var(--tw-bg-opacity));
+}
+
+.bg-flying {
+  --tw-bg-opacity: 1;
+  background-color: rgba(168, 144, 240, var(--tw-bg-opacity));
+}
+
+.bg-psychic {
+  --tw-bg-opacity: 1;
+  background-color: rgba(225, 95, 131, var(--tw-bg-opacity));
+}
+
+.bg-bug {
+  --tw-bg-opacity: 1;
+  background-color: rgba(168, 183, 32, var(--tw-bg-opacity));
+}
+
+.bg-rock {
+  --tw-bg-opacity: 1;
+  background-color: rgba(184, 160, 57, var(--tw-bg-opacity));
+}
+
+.bg-ghost {
+  --tw-bg-opacity: 1;
+  background-color: rgba(112, 88, 152, var(--tw-bg-opacity));
+}
+
+.bg-dark {
+  --tw-bg-opacity: 1;
+  background-color: rgba(112, 88, 72, var(--tw-bg-opacity));
+}
+
+.bg-dragon {
+  --tw-bg-opacity: 1;
+  background-color: rgba(113, 56, 248, var(--tw-bg-opacity));
+}
+
+.bg-steel {
+  --tw-bg-opacity: 1;
+  background-color: rgba(184, 184, 208, var(--tw-bg-opacity));
+}
+
+.bg-fairy {
+  --tw-bg-opacity: 1;
+  background-color: rgba(240, 182, 188, var(--tw-bg-opacity));
+}
+
 .hover\:bg-blue-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
@@ -1051,6 +1164,11 @@ select {
 .px-0 {
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .px-4 {

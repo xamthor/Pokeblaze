@@ -1,0 +1,47 @@
+@page "/pokemonview/{id}"
+@using System.Text.Json
+@using System.Net.Http.Json
+@inject HttpClient HttpClient
+
+<div class="container mx-auto">
+    <p class="text-center capitalize">@pokemon.Name</p>
+    <img src="@pokemon.Image" class="mx-auto w-64 h-64">
+    <div class="mx-auto w-max">
+    @foreach (var type in pokemon.Types)
+    {
+        <div class="capitalize inline-block text-center text-white mx-2 w-32 h-auto py-4 px-2 @($"bg-{type.Name}")">@type.Name</div>
+    }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    Index.Pokemon pokemon = new Index.Pokemon();
+    private JsonElement types;
+
+    protected override async Task OnInitializedAsync()
+    {
+        string apiEndpoint = $"https://pokeapi.co/api/v2/pokemon/{id}";
+        var data = await HttpClient.GetFromJsonAsync<JsonElement>(apiEndpoint);
+
+        pokemon.Name = data.GetProperty("name").ToString();
+        pokemon.Image = data.GetProperty("sprites").GetProperty("front_default").ToString();
+        types = data.GetProperty("types");
+        
+        
+        
+        foreach (JsonElement item in types.EnumerateArray())
+        {
+            Index.Type tempType = new Index.Type();
+
+            tempType.Slot = item.GetProperty("slot").GetInt32();
+            tempType.Name = item.GetProperty("type").GetProperty("name").ToString();
+            
+            pokemon.Types.Add(tempType);
+
+        }
+        
+    }
+    
+}
