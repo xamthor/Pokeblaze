@@ -3,6 +3,7 @@ module.exports = {
     enabled: true,
     content: [
       './**/*.html',
+      './**/*.cshtml',
       './**/*.razor'
     ],
     options: {
